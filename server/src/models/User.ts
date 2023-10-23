@@ -5,7 +5,8 @@ export default (sequelize:Sequelize) => {
         id:{
             type: DataTypes.UUID,
             primaryKey:true,
-            allowNull:false
+            allowNull:false,
+            defaultValue: DataTypes.UUIDV4
         },
         userName:{
             type: DataTypes.STRING,
@@ -19,5 +20,7 @@ export default (sequelize:Sequelize) => {
             type: DataTypes.STRING,
             allowNull:false
         }
+    },{
+        timestamps:false
     })
 }

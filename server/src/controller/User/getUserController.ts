@@ -1,22 +1,35 @@
+import { Egress, Income, User } from "../../db"
+
 import { Op } from "sequelize"
 
-import { User } from "../../db"
 interface Props{
-    name?:string
+    userName?:string
 }
 
-const userController = async({name}:Props = {}) =>{
-    if(name){
-        const findName = await User.findOne({where:{
-            name:{
-                [Op.iLike] : `%${name}%`
-            }
-        }})
+const userController = async({userName}:Props = {}) =>{
+    
+    if(userName){
+        const findName = await User.findAll({where:{
+                userName:{
+                    [Op.iLike] : `%${userName}%`
+                },
+            },
+            include:[
+                {
+                    model:Income
+                },
+                {
+                    model:Egress
+                }
+            ]
+        }
+        )
         return findName
-    }else{
-        const findAll = await User.findAll()
-        return findAll
     }
+
+    const findAll = await User.findAll()
+    return findAll
+    
 }
 
 export default  userController
